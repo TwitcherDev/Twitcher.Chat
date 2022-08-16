@@ -142,7 +142,7 @@ internal class TwitcherIrcChatClient : ITwitchChat
                 var reconnectIn = _reconnectInterval + Random.Shared.Next(500);
                 _logger?.LogDebug("Try to reconnect in {time} seconds", reconnectIn / 1000d);
                 await Task.Delay(reconnectIn);
-                _reconnectInterval *= 2;
+                _reconnectInterval = Math.Min(_reconnectInterval * 2, 120000);
                 _logger?.LogInformation("Reconnecting");
                 OnReconnecting?.Invoke(this, EventArgs.Empty);
                 continue;
