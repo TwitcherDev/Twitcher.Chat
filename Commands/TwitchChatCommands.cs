@@ -1,4 +1,4 @@
-﻿using Twitcher.Chat.Irc;
+﻿using Twitcher.Chat.Client;
 
 namespace Twitcher.Chat.Commands;
 

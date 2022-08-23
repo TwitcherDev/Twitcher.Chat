@@ -1,8 +1,10 @@
 ﻿namespace Twitcher.Chat.Interfaces;
 
 /// <summary>Interface containing basic functionality for working with Twitch chat. Is based on the docs <see href="https://dev.twitch.tv/docs/irc"/></summary>
-public interface ITwitchChat
+public interface ITwitchChat : IDisposable
 {
+    /// <summary><see langword="true"/> if bot was connected; otherwise, <see langword="false"/></summary>
+    bool IsConnected { get; }
     /// <summary>Information about the channels to which the bot is joined</summary>
     IReadOnlyCollection<ITwitchChatChannel> Channels { get; }
     /// <summary>Global information about bot. <see cref="ITwitchChatOptions.CommandsCapability"/> and <see cref="ITwitchChatOptions.TagsCapability"/> required</summary>
