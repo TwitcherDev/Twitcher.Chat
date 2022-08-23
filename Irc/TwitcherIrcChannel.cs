@@ -7,15 +7,14 @@ internal class TwitcherIrcChannel : ITwitchChatChannel
     public List<string>? Members { get; private set; }
     public IRoomStateTags? RoomStateTags { get; internal set; }
     public IUserStateTags? UserStateTags { get; internal set; }
-    public bool IsHosting => HostTargetUsername != "-";
-    public string HostTargetUsername { get; internal set; }
+    public bool IsHosting => HostTargetUsername != null;
+    public string? HostTargetUsername { get; internal set; }
 
     internal TwitcherIrcChannel(string username, bool isMembers)
     {
         Username = username.ToLower();
         if (isMembers)
             Members = new List<string>();
-        HostTargetUsername = "-";
     }
 
     internal void AddMembers(IEnumerable<string> names)

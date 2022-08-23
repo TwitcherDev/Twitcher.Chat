@@ -281,8 +281,7 @@ internal class TwitcherIrcChatClient : ITwitchChat
                 if (!_options.MembershipCapability)
                     return;
                 var channel = _channels.FirstOrDefault(c => c.Username == message.Channel);
-                if (channel != null)
-                    channel.AddMembers(message.Params!.Split(' '));
+                channel?.AddMembers(message.Params!.Split(' '));
             }
             return;
 
@@ -342,7 +341,10 @@ internal class TwitcherIrcChatClient : ITwitchChat
             {
                 var channel = _channels.FirstOrDefault(c => c.Username == message.Channel);
                 if (channel != null)
-                    channel.HostTargetUsername = message.SeparatedParams![0];
+                {
+                    var target = message.SeparatedParams![0];
+                    channel.HostTargetUsername = target != "-" ? target : null;
+                }
                 OnHostTargetReceived?.Invoke(this, new OnChatHostTargetReceivedArgs(message.Channel!, message.SeparatedParams![0], int.TryParse(message.SeparatedParams[1], out var viewers) ? viewers : -1));
                 return;
             }

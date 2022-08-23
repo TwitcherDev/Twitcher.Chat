@@ -1,4 +1,6 @@
-﻿namespace Twitcher.Chat.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Twitcher.Chat.Interfaces;
 
 /// <summary></summary>
 public interface ITwitchChatChannel
@@ -14,7 +16,8 @@ public interface ITwitchChatChannel
     /// <summary>Information about the bot. <see cref="ITwitchChatOptions.CommandsCapability"/> and <see cref="ITwitchChatOptions.TagsCapability"/> required</summary>
     public IUserStateTags? UserStateTags { get; }
     /// <summary>Does this channel host. <see cref="ITwitchChatOptions.CommandsCapability"/> required</summary>
+    [MemberNotNullWhen(true, nameof(HostTargetUsername))]
     public bool IsHosting { get; }
     /// <summary>The channel to which the hosting is going. <see cref="ITwitchChatOptions.CommandsCapability"/> required</summary>
-    public string HostTargetUsername { get; }
+    public string? HostTargetUsername { get; }
 }
