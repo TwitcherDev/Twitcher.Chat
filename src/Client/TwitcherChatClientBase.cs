@@ -184,8 +184,6 @@ public abstract class TwitcherChatClientBase : ITwitchChat
             {
                 _ = Task.Run(Receiving);
 
-                Send("PASS " + _token + "\nNICK " + _username);
-
                 var caps = new List<string>();
                 if (_options.CommandsCapability)
                     caps.Add("twitch.tv/commands");
@@ -195,6 +193,8 @@ public abstract class TwitcherChatClientBase : ITwitchChat
                     caps.Add("twitch.tv/tags");
                 if (caps.Any())
                     Send("CAP REQ :" + string.Join(' ', caps));
+
+                Send("PASS " + _token + "\nNICK " + _username);
 
                 _reconnectInterval = 1000;
                 _isReconnecting = false;
