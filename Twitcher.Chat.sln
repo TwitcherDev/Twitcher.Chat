@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Twitcher.Chat", "src\Twitcher.Chat.csproj", "{243068AD-8444-409A-ABC0-83C47D59622B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Twitcher.Chat.Tests", "tests\Twitcher.Chat.Tests.csproj", "{A2878033-42B0-425D-B198-F73069B5F6AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{243068AD-8444-409A-ABC0-83C47D59622B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{243068AD-8444-409A-ABC0-83C47D59622B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{243068AD-8444-409A-ABC0-83C47D59622B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2878033-42B0-425D-B198-F73069B5F6AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2878033-42B0-425D-B198-F73069B5F6AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2878033-42B0-425D-B198-F73069B5F6AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2878033-42B0-425D-B198-F73069B5F6AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -88,7 +88,12 @@ public abstract class TwitcherChatClientBase : ITwitchChat
     /// <inheritdoc/>
     public event EventHandler<IUserNoticeReceivedArgs<IUserNoticeBitsBadgeTierReceivedTags>>? OnBitsBadgeTierReceived;
 
-    internal TwitcherChatClientBase(string username, string token, ITwitchChatOptions options, ILogger? logger = null)
+    /// <param name="username">Username of the <paramref name="token"/> owner</param>
+    /// <param name="token">Access token for authentication</param>
+    /// <param name="options">Twitch chat options</param>
+    /// <param name="logger"><see cref="ILogger"/> for logging</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public TwitcherChatClientBase(string username, string token, ITwitchChatOptions options, ILogger? logger = null)
     {
         ArgumentNullException.ThrowIfNull(username);
         ArgumentNullException.ThrowIfNull(token);
