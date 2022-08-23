@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 using System.Text;
 
 namespace Twitcher.Chat.Client;
@@ -291,6 +292,7 @@ public abstract class TwitcherChatClientBase : ITwitchChat
         switch (message.Command)
         {
             case "PING":
+                Debug.Assert(message.Params != null);
                 Send("PONG " + message.Params);
                 return;
 
@@ -316,6 +318,8 @@ public abstract class TwitcherChatClientBase : ITwitchChat
 
             case "353":
             {
+                Debug.Assert(message.Channel != null);
+                Debug.Assert(message.Params != null);
                 if (!_options.MembershipCapability)
                     return;
                 var channel = _channels.FirstOrDefault(c => c.Username == message.Channel);
@@ -325,6 +329,8 @@ public abstract class TwitcherChatClientBase : ITwitchChat
 
             case "JOIN":
             {
+                Debug.Assert(message.Channel != null);
+                Debug.Assert(message.Username != null);
                 var channel = _channels.FirstOrDefault(c => c.Username == message.Channel);
                 if (message.Username == _username)
                 {
@@ -344,6 +350,8 @@ public abstract class TwitcherChatClientBase : ITwitchChat
 
             case "PART":
             {
+                Debug.Assert(message.Channel != null);
+                Debug.Assert(message.Username != null);
                 var channel = _channels.FirstOrDefault(c => c.Username == message.Channel);
                 if (message.Username == _username)
                 {
@@ -364,19 +372,31 @@ public abstract class TwitcherChatClientBase : ITwitchChat
             return;
 
             case "PRIVMSG":
+                Debug.Assert(message.Channel != null);
+                Debug.Assert(message.Params != null);
+                Debug.Assert(message.Username != null);
+                Debug.Assert(!_options.TagsCapability || message.Tags != null);
                 OnMessageReceived?.Invoke(this, new OnChatMessageReceivedArgs(message.Channel!, message.Username!, message.Params!, _options.TagsCapability ? message.Tags! : null));
                 return;
 
             case "CLEARCHAT":
+                Debug.Assert(message.Channel != null);
+                Debug.Assert(message.Params != null);
+                Debug.Assert(!_options.TagsCapability || message.Tags != null);
                 OnChatCleared?.Invoke(this, new OnChatClearedArgs(message.Channel!, message.Params, _options.TagsCapability ? message.Tags : null));
                 return;
 
             case "CLEARMSG":
+                Debug.Assert(message.Channel != null);
+                Debug.Assert(message.Params != null);
+                Debug.Assert(!_options.TagsCapability || message.Tags != null);
                 OnMessageCleared?.Invoke(this, new OnChatMessageClearedArgs(message.Channel!, message.Params, _options.TagsCapability ? message.Tags : null));
                 return;
 
             case "HOSTTARGET":
             {
+                Debug.Assert(message.Channel != null);
+                Debug.Assert(message.SeparatedParams?.Length == 2);
                 var channel = _channels.FirstOrDefault(c => c.Username == message.Channel);
                 if (channel != null)
                 {
@@ -389,6 +409,7 @@ public abstract class TwitcherChatClientBase : ITwitchChat
 
             case "GLOBALUSERSTATE":
             {
+                Debug.Assert(!_options.TagsCapability || message.Tags != null);
                 var args = new OnGlobalUserStateReceivedArgs(_options.TagsCapability ? message.Tags! : null);
                 _globalUserTags = args.Tags;
                 OnGlobalUserStateReceived?.Invoke(this, args);
@@ -397,6 +418,8 @@ public abstract class TwitcherChatClientBase : ITwitchChat
 
             case "ROOMSTATE":
             {
+                Debug.Assert(message.Channel != null);
+                Debug.Assert(!_options.TagsCapability || message.Tags != null);
                 var channel = _channels.FirstOrDefault(c => c.Username == message.Channel!);
                 if (_options.TagsCapability && channel != null)
                     if (channel.RoomStateTags == default)
@@ -409,6 +432,8 @@ public abstract class TwitcherChatClientBase : ITwitchChat
 
             case "USERSTATE":
             {
+                Debug.Assert(message.Channel != null);
+                Debug.Assert(!_options.TagsCapability || message.Tags != null);
                 var args = new OnUserStateReceivedArgs(message.Channel!, _options.TagsCapability ? message.Tags! : null);
                 var channel = _channels.FirstOrDefault(c => c.Username == message.Channel!);
                 if (channel != null)
@@ -418,8 +443,11 @@ public abstract class TwitcherChatClientBase : ITwitchChat
             }
 
             case "USERNOTICE":
-            #region UserNotice
             {
+                Debug.Assert(message.Channel != null);
+                Debug.Assert(message.Params != null);
+                Debug.Assert(!_options.TagsCapability || message.Tags != null);
+                #region UserNotice
                 IUserNoticeReceivedTags? tags = null;
                 if (_options.TagsCapability)
                 {
@@ -474,15 +502,22 @@ public abstract class TwitcherChatClientBase : ITwitchChat
                     }
                 }
                 OnUserNoticeReceived?.Invoke(this, new OnUserNoticeReceivedArgs<IUserNoticeReceivedTags>(message.Channel!, message.Params, tags));
+                #endregion
                 return;
             }
-            #endregion
 
             case "WHISPER":
+                Debug.Assert(message.Channel != null);
+                Debug.Assert(message.Params != null);
+                Debug.Assert(message.Username != null);
+                Debug.Assert(!_options.TagsCapability || message.Tags != null);
                 OnWhisperReceived?.Invoke(this, new OnWhisperReceivedArgs(message.Channel!, message.Username!, message.Params!, _options.TagsCapability ? message.Tags : null));
                 return;
 
             case "NOTICE":
+                Debug.Assert(message.Channel != null);
+                Debug.Assert(message.Params != null);
+                Debug.Assert(!_options.TagsCapability || message.Tags != null);
                 OnNoticeReceived?.Invoke(this, new OnChatNoticeReceivedArgs(message.Channel!, message.Params!, _options.TagsCapability ? message.Tags : null));
                 return;
 
@@ -493,6 +528,7 @@ public abstract class TwitcherChatClientBase : ITwitchChat
                 return;
 
             default:
+                Debug.Assert(message.Command != null);
                 _logger?.LogWarning("Unexpected command: {commang}", message.Command);
                 return;
         }
