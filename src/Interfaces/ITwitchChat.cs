@@ -70,10 +70,10 @@ public interface ITwitchChat : IDisposable
     event EventHandler<IUserNoticeReceivedArgs<IUserNoticeBitsBadgeTierReceivedTags>>? OnBitsBadgeTierReceived;
 
     /// <summary>Connects to the server</summary>
-    /// <returns>Connection task, returning <see langword="true"/> if successful, otherwise <see langword="false"/>. If <see cref="ITwitchChatOptions.AutoReconnect"/> is <see langword="true"/> bot will try to connect forever and never return <see langword="fakse"/></returns>
+    /// <returns>Connection task, returning <see langword="true"/> if successful, otherwise <see langword="false"/>. If <see cref="ITwitchChatOptions.AutoReconnect"/> is <see langword="true"/> bot will try to connect forever and never return <see langword="false"/></returns>
     Task<bool> Connect();
     /// <summary>Reconnects to the server</summary>
-    /// <returns>Connection task, returning <see langword="true"/> if successful, otherwise <see langword="false"/>. If <see cref="ITwitchChatOptions.AutoReconnect"/> is <see langword="true"/> bot will try to connect forever and never return <see langword="fakse"/></returns>
+    /// <returns>Connection task, returning <see langword="true"/> if successful, otherwise <see langword="false"/>. If <see cref="ITwitchChatOptions.AutoReconnect"/> is <see langword="true"/> bot will try to connect forever and never return <see langword="false"/></returns>
     Task<bool> Reconnect();
     /// <summary>Disconnects from the server</summary>
     /// <returns>Disconnection task, returning <see langword="true"/> if successful, otherwise <see langword="false"/></returns>
